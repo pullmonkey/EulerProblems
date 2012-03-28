@@ -3,10 +3,7 @@ largest_3_digit = 999
 largest_pali = 0
 
 def palindrome?(n)
-  str = n.to_s
-  return true if str.size == 1
-  return true if str[0..str.size/2 -1] == str[(str.size/2) .. - 1].reverse and str.size.even?
-  return true if str[0..str.size/2 - 1] == str[(str.size/2) + 1 .. - 1].reverse and str.size.odd?
+  return true if n.to_s == n.to_s.reverse
   return false
 end
 
