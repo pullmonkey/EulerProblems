@@ -48,16 +48,39 @@ end
 # which also demonstrates [1,4,6,4,1] for row 5 of pascal's triangle
 # also, we only care about the last nine digits of the answer
 # so maybe we can do something easy with that
-def sum_of_recursive_terms(n)
-  sum = n
+def recursive_terms(n)
+  all_ns << n
   # if we get 1111
   # we have 1111 and should then get 211 and then 31 and then 4
   # then continue from 1111 to 121 then 13
   # then continue from 1111 to 112
   # to find these terms, find the 
-  next_ns = 
-  sum += sum_of_recursive_terms(next_n)
-  return sum 
+  next_ns = convert_n_to_next_terms(n)
+  next_ns.each do |next_n|
+    all_ns << recursive_terms(next_n)
+  end
+  return all_ns.flatten.uniq
+end
+
+# take 1111 and return [211, 121, 112]
+# take 121 and return [13]
+# take 211 and return [31, 22]
+# take 112 and return [22] # we have a dup of 22 for 211 and 112?
+# take 31 and return [4]
+# take 12121 and return [1213, 1321]
+# always take larger number followed by smaller number and sum and replace
+# and always return temrs that are 1 less in length
+# for instance 12121 should not always return 133
+# instead, let 1213 return 133
+# 1321 should return 151, 133 but 1213 is also returning 133 ... hmm
+def convert_n_to_next_terms(n)
+  next_ns = []
+  ts = n.to_s.split("")
+  ts.size.times do |i|
+    if i+1 <= ts.size and ts[i].to_i >= ts[i+1].to_i
+      next_ns << n
+    end
+  return next_ns
 end
 
 
